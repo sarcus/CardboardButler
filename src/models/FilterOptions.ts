@@ -11,7 +11,7 @@ export interface PlayTimeOption {
  */
 export type PlayCountOption = number;
 
-
+export type MinNPScoreOption = number;
 /**
  * Defines how to sort the collection.
  */
@@ -31,5 +31,6 @@ export type ParametricSortOption = {
 export interface FilterAndSortOptions {
     playtime?: PlayTimeOption;
     playerCount?: PlayCountOption;
+    minNPScore?: MinNPScoreOption;
     sortOption?: SortOption | SortOption[];
 }

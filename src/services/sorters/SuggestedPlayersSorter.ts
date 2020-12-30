@@ -22,13 +22,11 @@ export class SuggestedPlayersSorter implements Sorter {
         };
     }
 
-    private getSuggestePlayerScore(playerCount: number, gameInfo: GameInfoPlus): number {
+    public getSuggestePlayerScore(playerCount: number, gameInfo: GameInfoPlus): number {
         if ("suggestedNumberOfPlayers" in gameInfo) {
             const votes = gameInfo.suggestedNumberOfPlayers[playerCount] || gameInfo.suggestedNumberOfPlayers[Infinity];
             if (votes !== undefined) {
-                const total = votes.best + votes.recommended + votes.notRecommended;
-                const score = (votes.best / total * 3) + (votes.recommended / total) - (votes.notRecommended / total * 2);
-                return score;
+                return votes.score;
             }
         }
         return -Infinity;

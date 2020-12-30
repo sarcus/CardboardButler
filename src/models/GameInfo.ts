@@ -38,6 +38,8 @@ export interface NumberOfPlayersVotes {
     best: number;
     recommended: number;
     notRecommended: number;
+    total: number;
+    score: number;
 }
 
 export interface SuggestedNumberOfPlayersMap {

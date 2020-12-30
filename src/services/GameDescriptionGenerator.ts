@@ -1,5 +1,7 @@
-import { GameInfo, GameInfoPlus, ExtendedGameInfo } from "../models/GameInfo";
-
+import {GameInfo, GameInfoPlus, ExtendedGameInfo, FullGameInfo} from "../models/GameInfo";
+import { SuggestedPlayersSorter } from "./sorters/SuggestedPlayersSorter";
+import {Simulate} from "react-dom/test-utils";
+import play = Simulate.play;
 
 const ratingNames = [
     "Outstanding",
@@ -35,7 +37,7 @@ export default class DescriptionGenerator {
      * Given game information, generates a human readable description.
      * @param gameInfo the game to generate a description for.
      */
-    generateDescription(gameInfo: GameInfoPlus): string {
+    generateDescription(gameInfo: GameInfoPlus, playerCount: number | undefined): string {
         const rating = this.getRatingDescription(gameInfo.averagerating);
         const family = this.getFamilyDescription(gameInfo);
         const players = this.getPlayerInfoString(gameInfo);
@@ -59,6 +61,12 @@ export default class DescriptionGenerator {
         if (hasWeight) {
             const weight = this.getWeightInfo(gameInfo as ExtendedGameInfo);
             firstString += weight + " to learn.";
+        }
+        if (playerCount !== undefined) {
+            let votes = (gameInfo as FullGameInfo).suggestedNumberOfPlayers[playerCount];
+            if (votes !== undefined) {
+                firstString += " " + playerCount + "P score is " + votes.score.toFixed(2) + ", voted by " + votes.total + " users.";
+            }
         }
         return firstString;
     }

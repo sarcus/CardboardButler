@@ -9,6 +9,7 @@ type Size = "mini" | "tiny" | "small" | "medium" | "large" | "big" | "huge" | "m
 export interface AppProps {
     item: GameInfoPlus;
     size?: Size;
+    playerCount: number | undefined;
 }
 
 const gameDescription = new DescriptionGenerator();
@@ -19,7 +20,7 @@ const gameDescription = new DescriptionGenerator();
 export default class GameCardItem extends React.PureComponent<AppProps> {
 
     render() {
-        const { item, size } = this.props;
+        const { item, size, playerCount } = this.props;
         const { owners = [] } = item;
         return (
             <Card size={size}>
@@ -30,7 +31,7 @@ export default class GameCardItem extends React.PureComponent<AppProps> {
                         <span className="date">{(item.yearPublished || "") + " - " + owners.join(", ")}</span>
                     </Card.Meta>
                     <Card.Description>
-                        {gameDescription.generateDescription(item)}
+                        {gameDescription.generateDescription(item, playerCount)}
                     </Card.Description>
                 </Card.Content>
                 <Card.Content extra>

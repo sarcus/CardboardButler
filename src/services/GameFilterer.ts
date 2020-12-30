@@ -1,4 +1,4 @@
-import { GameInfo } from "../models/GameInfo";
+import {ExtendedGameInfo, GameInfo, FullGameInfo} from "../models/GameInfo";
 
 import { FilterAndSortOptions } from "../models/FilterOptions";
 const memoize = require("fast-memoize");
@@ -13,12 +13,15 @@ export class GameFilterer {
     public filterCollection: (collection: GameInfo[], options: FilterAndSortOptions) => GameInfo[];
 
     private filterCollectionInner(collection: GameInfo[], options: FilterAndSortOptions) {
-        const { playtime, playerCount } = options;
+        const { playtime, playerCount, minNPScore= 1.5 } = options;
         if (playtime) {
             collection = this.filterOnTime(collection, playtime);
         }
         if (playerCount) {
             collection = this.filterOnPlayerCount(collection, playerCount);
+            if (minNPScore) {
+                collection = this.filterOnNPScore(collection, playerCount, minNPScore);
+            }
         }
         return collection;
     }
@@ -33,4 +36,15 @@ export class GameFilterer {
     private filterOnPlayerCount(collection: GameInfo[], playerCount: number) {
         return collection.filter((game) => game.minPlayers <= playerCount && playerCount <= game.maxPlayers);
     }
+
+    private filterOnNPScore(collection: GameInfo[], playerCount: number, minNPScore: number) {
+        let getScore = function (game: FullGameInfo) {
+          if (game.suggestedNumberOfPlayers[playerCount] !== undefined) {
+              return game.suggestedNumberOfPlayers[playerCount].score;
+          }
+          return 0;
+        };
+        return collection.filter((game) => getScore(game as FullGameInfo) >= minNPScore);
+    }
 }
+

@@ -5,14 +5,15 @@ import GameCardItem from "./GameCardItem";
 
 interface Props {
     games: GameInfoPlus[];
+    playerCount: number | undefined;
 }
 
 export default class CollectionGrid extends React.PureComponent<Props> {
     render() {
-        const { games } = this.props;
+        const { games, playerCount } = this.props;
         return (
             <Card.Group centered  >
-                {games.map((game) => <GameCardItem key={game.id} item={game} />)}
+                {games.map((game) => <GameCardItem key={game.id} item={game} playerCount={playerCount}/>)}
             </Card.Group>
         );
     }

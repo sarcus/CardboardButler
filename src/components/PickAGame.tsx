@@ -62,7 +62,7 @@ export default class PickAGameForMe extends React.Component<Props, State> {
                         <Segment>
                             <Header as="h3">What about this game?</Header>
                             <Item.Group >
-                                <GameListItem size={"large"} item={pickedGame} />
+                                <GameListItem size={"large"} item={pickedGame} playerCount={undefined} />
                             </Item.Group>
                             <Button className="large" color="black" onClick={(e) => {
                                 e.stopPropagation();

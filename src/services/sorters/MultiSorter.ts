@@ -30,7 +30,7 @@ export class MultiSorter implements Sorter {
         const combinedComparator = this.createCompareWithMap(multiScoreMap);
         return mutableCollection.sort(combinedComparator);
     }
-
+//czemu dodanie filtra <30min psuje sortowanie po SuggestedPlayers
     private createCompareWithMap(indexMap: IndexMap) {
         return (a: GameInfo, b: GameInfo) => {
             const aScore = indexMap[a.id].reduce((p, c) => p + c, 0);

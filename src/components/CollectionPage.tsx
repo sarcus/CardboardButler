@@ -56,6 +56,7 @@ export default class CollectionPage extends React.Component<Props, State> {
         const filterer = new GamesFilterAndSorter();
         const filteredGames = filterer.filterAndSort(games, this.state.filterOptions);
         const noGames = filteredGames.length === 0;
+        let playerCount = this.state.filterOptions.playerCount;
         return (
             <div data-testid="CollectionPage">
                 <div style={{ position: "absolute", top: 20, right: 20 }}>
@@ -78,10 +79,10 @@ export default class CollectionPage extends React.Component<Props, State> {
                 }
                 <Container fluid text={viewType === "list"}>
                     {viewType === "list" &&
-                        <CollectionList games={filteredGames} />
+                        <CollectionList games={filteredGames} playerCount={playerCount}/>
                     }
                     {viewType === "grid" &&
-                        <CollectionGrid games={filteredGames} />
+                        <CollectionGrid games={filteredGames} playerCount={playerCount}/>
                     }
                 </Container>
                 <Footer />

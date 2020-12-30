@@ -174,14 +174,18 @@ class BggGameService {
             const numberOfPlayers = numOfPlayersString.indexOf("+") > -1 ? Infinity : parseInt(numOfPlayersString, 10);
             const getNumberOfVotes = (resultType: string) => parseInt(e.elements.find((e) => e.name === "result" && e.attributes["value"].toString() === resultType).attributes.numvotes as string);
             if (e.elements) {
-                const best = getNumberOfVotes("Best");
-                const recommended = getNumberOfVotes("Recommended");
-                const notRecommended = getNumberOfVotes("Not Recommended");
+                const best = getNumberOfVotes("Best") + 1;
+                const recommended = getNumberOfVotes("Recommended") + 1;
+                const notRecommended = getNumberOfVotes("Not Recommended") + 1;
+                const total = best + recommended + notRecommended;
+                const score = (best / total * 3) + (recommended / total) - (notRecommended / total * 2);
                 return {
                     numberOfPlayers: numberOfPlayers,
                     best: best,
                     recommended: recommended,
-                    notRecommended: notRecommended
+                    notRecommended: notRecommended,
+                    total: total,
+                    score: score
                 };
             }
             return undefined;
